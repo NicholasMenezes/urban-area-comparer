@@ -1,6 +1,18 @@
-import { Container, Card } from "react-bootstrap";
+import { Container } from "react-bootstrap";
+import { GetUrbanAreas } from "./teleport-api";
+import React, { useState, useEffect } from "react";
+import UrbanAreaCard from "./UrbanAreaCard";
 
 function App() {
+  const [urbanAreas, setUrbanAreas] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      setUrbanAreas(await GetUrbanAreas());
+    };
+    getData();
+  }, []);
+
   return (
     <div className="App">
       <Container
@@ -13,18 +25,8 @@ function App() {
           marginTop: "2em"
         }}
       >
-        <Card style={{ width: "20rem", flexGrow: "1" }}>
-          <Card.Body>
-            <Card.Title>Urban Area 1</Card.Title>
-            <Card.Text>Urban Area Data Points</Card.Text>
-          </Card.Body>
-        </Card>
-        <Card style={{ width: "20rem", flexGrow: "1" }}>
-          <Card.Body>
-            <Card.Title>Urban Area 2</Card.Title>
-            <Card.Text>Urban Area Data Points</Card.Text>
-          </Card.Body>
-        </Card>
+        <UrbanAreaCard urbanAreas={urbanAreas} />
+        <UrbanAreaCard urbanAreas={urbanAreas} />
       </Container>
     </div>
   );
